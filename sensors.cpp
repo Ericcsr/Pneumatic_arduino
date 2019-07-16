@@ -1,5 +1,8 @@
 #include "pneumatic_task.h"
 
+extern int current_task;
+extern int rotation_ok[2];
+
 void sensor_Init()
 {
     for(int i=22;i<27;i++)
@@ -30,6 +33,11 @@ void sensor_update(int size)
                 active_sensors[i] = DEACTIVATE;
         }
     }
+    TIM_Stop();
+    Wire.write(current_task);
+    Wire.write(rotation_ok[0]);
+    Wire.write(rotation_ok[1]);
+    MsTimer2::start();
 }
 
 //set active sensors when external functions need to
